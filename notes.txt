@@ -1,0 +1,143 @@
+📌 Brief Overview
+An Object-Relational Mapper (ORM) is a tool that allows developers to interact with databases using object-oriented
+programming (OOP) concepts. It abstracts SQL commands, enabling you to work with database entities as if they were
+regular objects in your programming language. This simplifies database interaction by allowing developers to work
+with data in a familiar way, such as in Python, without writing raw SQL queries.
+
+Why Use an ORM?
+    Ease of Use: Manipulate Python objects instead of writing SQL queries.
+
+    Portability: Write database-agnostic code, making it easier to switch between database systems
+    (e.g., MySQL, PostgreSQL, SQLite).
+   
+    Security: Built-in protections against SQL injection attacks.
+    
+    Productivity: Spend less time writing boilerplate code for database interaction.
+   
+    Basic Concepts of ORMs
+        Model: Represents a table in your database. Model attributes correspond to table columns.
+    
+        Instance: An instance of a model represents a row/record in the table.
+    
+        Query: Retrieve, filter, and manipulate data using the ORM's query builder.
+
+
+Setting up a Virtual Environment
+
+    Open VS Code to your project folder, and in the terminal run the following commands
+    #Windows
+    python -m venv venv
+
+    #Mac
+    python3 -m venv venv
+    Once this is complete you should see a venv folder appear in your VS Code explorer.
+    Activate the virtual environment 
+    #Windows
+    .\venv\Scripts\activate
+
+    #Mac
+    source venv/bin/activate
+    You should now see (venv) in your terminal, indicating the virtual environment is active.
+
+Virtual Environments
+    A virtual environment is like a separate folder for your project where all the tools and libraries it needs
+    are kept in one place. Think of it as giving your project its own little toolbox that won’t get mixed up with
+    tools from other projects.
+
+    Keeps Things Organized:
+        Each project gets its own set of tools, so they don’t accidentally share or mess up each other’s stuff.
+    
+    Makes Sharing Easier:
+        If you want to share your project with someone else, they can set up the exact same tools by following a simple list.
+    
+    Prevents Problems:
+        If one project needs a newer tool and another needs an older one, virtual environments keep them from clashingpthon
+
+        pip install sqlalchemy
+        pip install mysql-connector-python
+
+
+Connecting to a Database
+The first step in using SQLAlchemy is establishing a connection to your database. SQLAlchemy supports various database
+systems, including SQLite, PostgreSQL, MySQL, and more.
+
+
+
+Here's an example of setting up a MySQL connection using MySQL Connector:
+
+from sqlalchemy import create_engine
+
+# Create an engine for SQLite
+engine = create_engine('mysql+mysqlconnector://root:<YOUR_MYSQL_PASSWORD>@localhost/<DATABASE_NAME>)
+
+Replace YOUR_MYSQL_PASSWORD with your actual MySQL password and DATABASE_NAME with the name of your database.
+Do not include the angle brackets (<>) as they are just placeholders.
+
+Before connecting, ensure that the database is created in MySQL Workbench
+
+
+
+Defining Models (Tables)
+In SQLAlchemy, you define database tables as Python classes using object-oriented programming concepts.
+Each class corresponds to a table, and its attributes represent the table’s columns.
+
+
+
+The Base Class
+    class Base(DeclarativeBase):
+        pass
+
+    The Base class serves as a foundation for all database models.
+    Every model (table) you define will inherit from this Base class.
+    It connects the models to SQLAlchemy’s ORM engine.
+
+
+The User Class (A Model Representing a Table)
+    class User(Base):
+        __tablename__ = "users"
+
+        id: Mapped[int] = mapped_column(primary_key=True)
+        name: Mapped[str] = mapped_column(String(30), nullable=False)
+        email: Mapped[str] = mapped_column(String(100))
+
+
+__tablename__ Attribute:
+    This specifies the name of the table in the database.
+    Here, the table will be named "users".
+
+Columns as Class Attributes:
+    Each attribute (e.g., id, name, email) represents a column in the table.
+    You use the mapped_column() function to define the column's properties, like data type and constraints.
+
+Details of Each Column:
+    id:
+        Data type: Integer (Mapped[int]).
+        Additional constraint: Primary key (primary_key=True).
+    
+    name:
+        Data type: String, with a maximum length of 30 (String(30)).
+        Additional constraint: Required (nullable=False).
+    
+    email:
+        Data type: String, with a maximum length of 100 (String(100)).
+
+
+Key Functions and Concepts
+    Mapped[datatype]:
+        Specifies the data type stored in each column (e.g., int, str).
+        Helps with type checking and better code readability.
+    
+    mapped_column():
+        Used to define specific properties for each column, such as:
+            Primary keys (primary_key=True).
+            
+            Constraints (e.g., nullable=False to make a field required).
+            
+            String length (e.g., String(30)).
+
+
+
+Creating Tables
+Run the following to create database tables:
+
+Base.metadata.create_all(engine)

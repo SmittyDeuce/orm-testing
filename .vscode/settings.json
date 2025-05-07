@@ -1,0 +1,28 @@
+{
+    "sqltools.connections": [
+        {
+            "name": "MySQL Connection",
+            "driver": "MySQL",
+            "server": "localhost",
+            "port": 3306,
+            "database": "employee_db",
+            "username": "root",
+            "password": "Ibewlu332$@$!!",
+            "connectionTimeout": 30
+        },
+        {
+            "mysqlOptions": {
+                "authProtocol": "default",
+                "enableSsl": "Disabled"
+            },
+            "previewLimit": 50,
+            "server": "localhost",
+            "port": 3306,
+            "driver": "MySQL",
+            "database": "mydatabase",
+            "name": "Local MySQL Server",
+            "username": "root",
+            "askForPassword": true
+        }
+    ]
+}
